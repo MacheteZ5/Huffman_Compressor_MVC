@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Compression";
+}
+﻿
+<!DOCTYPE html>
+<html>
+    <head>
+    <link rel="stylesheet" href="~/css/Compression.css" />
+    </head>
+    <body>
+        <h1>Compression</h1>
+        <div id="titulo">
+            <center>
+                <h1>Por favor, seleccione el archivo que desea comprimir.</h1>
+            </center>
+        </div>
+        <div id="carga">
+            <center>
+                <form asp-controller="Huffman" asp-action="Compression" method="post" enctype="multipart/form-data">
+                    <div>
+                        <input id="archivo" type="file" name="postedfile" />
+                    </div>
+                    <div>
+                        <input id="archivo" type="submit" value="Comprimir Archivo" />
+                    </div>
+                </form>
+                <form action="~/Home/index">
+                    <input id="archivo" type="submit" value="Volver A Página Principal" />
+                </form>
+            </center>
+        </div>
+    </body>
+</html>
+
+
+

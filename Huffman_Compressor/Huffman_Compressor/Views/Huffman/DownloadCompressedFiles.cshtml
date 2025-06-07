@@ -1,0 +1,18 @@
+﻿
+<!DOCTYPE html>
+<html>
+    <body>
+        <p>Por favor, presione el nombre del archivo para iniciar la descarga.</p>
+        <div>
+            @foreach (var item in ViewData.Model)
+            {
+            @Html.ActionLink((string)item, "DownloadSelectedCompressedFile", new { fileName = item })
+            ;
+                <br>
+            }
+        </div>
+        <form action="~/Home/index">
+            <input id="volver" type="submit" value="Volver A Página Principal" />
+        </form>
+    </body>
+</html>

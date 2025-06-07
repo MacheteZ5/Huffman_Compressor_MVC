@@ -1,0 +1,38 @@
+﻿#archivo {
+    background-color: #003366;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+}
+
+h1 {
+    color: white;
+    font-weight: bold;
+}
+
+#comprimir {
+    background-color: #663300;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+}
+
+#carga {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 30em;
+    height: 18em;
+    margin-top: -9em;
+    margin-left: -15em;
+}
