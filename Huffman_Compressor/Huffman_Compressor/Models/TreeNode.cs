@@ -7,35 +7,29 @@
         private TreeNode? hijoIzquierdo = null;
         private TreeNode? hijoDerecho = null;
 
-        public void AsignarCaracterNodoArbol(string caracter)
+        public string Caracter
         {
-            this.caracter = caracter;
+            get { return this.caracter; }
+            set { this.caracter = value; }
         }
-        public void AsignarProbabilidadNodoArbol(double probabilidad)
+        public double Probabilidad
         {
-            this.probabilidad = probabilidad;
+            get { return this.probabilidad; }
+            set { this.probabilidad = value; }
+        }
+        public TreeNode? HijoIzquierdo
+        {
+            get { return this.hijoIzquierdo; }
+        }
+        public TreeNode? HijoDerecho
+        {
+            get { return this.hijoDerecho; }
         }
         public void AsignarNodosHijosNodoArbol(TreeNode hijoIzquierdo, TreeNode hijoDerecho)
         {
             this.hijoIzquierdo = hijoIzquierdo;
             this.hijoDerecho = hijoDerecho;
-            AsignarProbabilidadNodoArbol(hijoIzquierdo.probabilidad + hijoDerecho.probabilidad);
-        }
-        public string RetornarCaracter()
-        {
-            return this.caracter;
-        }
-        public double RetornarProbabilidad()
-        {
-            return this.probabilidad;
-        }
-        public TreeNode? RetornarHijoIzquierdo()
-        {
-            return hijoIzquierdo;
-        }
-        public TreeNode? RetornarHijoDerecho()
-        {
-            return hijoDerecho;
+            Probabilidad = (hijoIzquierdo.Probabilidad + hijoDerecho.Probabilidad);
         }
     }
 }

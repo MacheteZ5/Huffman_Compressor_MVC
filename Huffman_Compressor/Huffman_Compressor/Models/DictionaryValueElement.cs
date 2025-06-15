@@ -5,26 +5,21 @@
         private int quantity = 0;
         private string prefixCode = "";
         
-        public void AsignarQuantity(int quantity)
+        public int Quantity
         {
-            this.quantity = quantity;
+            get { return this.quantity; }
+            set { this.quantity = value; }
         }
-        public void AsignarPrefixCode(string prefixCode)
+        public string PrefixCode
         {
-            this.prefixCode = prefixCode;
+            get { return this.prefixCode; }
+            set { this.prefixCode = value; }
         }
+
         public int CompareTo(object obj)
         {
             var compareToObj = obj as DictionaryValueElement;
             return this.quantity.CompareTo(compareToObj.quantity);
-        }
-        public int RetornarQuantity()
-        {
-            return quantity;
-        }
-        public string RetornarPrefixCode()
-        {
-            return prefixCode;
         }
     }
 }

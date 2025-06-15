@@ -10,33 +10,36 @@ namespace Huffman_Compressor.Services
         {
             this.root = root;
         }
+
+        public TreeNode Root
+        {
+            get { return this.root; }
+        }
+
+        public string CaracteresYSusPrefijos
+        {
+            get { return this.caracteresYSusPrefijos; }
+        }
+
         public Dictionary<char, DictionaryValueElement> GenerarPrefixCode(TreeNode treeNode, Dictionary<char, DictionaryValueElement> dictionary, string prefixCode)
         {
             if (treeNode is not null)
             {
-                dictionary = GenerarPrefixCode(treeNode.RetornarHijoIzquierdo(), dictionary, $"{prefixCode}0");
-                if (treeNode.RetornarHijoDerecho() is null && treeNode.RetornarHijoIzquierdo() is null)
+                dictionary = GenerarPrefixCode(treeNode.HijoIzquierdo, dictionary, $"{prefixCode}0");
+                if (treeNode.HijoDerecho is null && treeNode.HijoIzquierdo is null)
                 {
-                    if (dictionary.ContainsKey(Convert.ToChar(treeNode.RetornarCaracter())))
+                    if (dictionary.ContainsKey(Convert.ToChar(treeNode.Caracter)))
                     {
                         var dictionaryValueElementcantidad = new DictionaryValueElement();
-                        dictionaryValueElementcantidad.AsignarPrefixCode(prefixCode);
-                        dictionary.Remove(Convert.ToChar(treeNode.RetornarCaracter()));
-                        dictionary.Add(Convert.ToChar(treeNode.RetornarCaracter()), dictionaryValueElementcantidad);
-                        caracteresYSusPrefijos += $"{treeNode.RetornarCaracter()}|{prefixCode}";
+                        dictionaryValueElementcantidad.PrefixCode = prefixCode;
+                        dictionary.Remove(Convert.ToChar(treeNode.Caracter));
+                        dictionary.Add(Convert.ToChar(treeNode.Caracter), dictionaryValueElementcantidad);
+                        caracteresYSusPrefijos += $"{treeNode.Caracter}|{prefixCode}";
                     }
                 }
-                dictionary = GenerarPrefixCode(treeNode.RetornarHijoDerecho(), dictionary, $"{prefixCode}1");
+                dictionary = GenerarPrefixCode(treeNode.HijoDerecho, dictionary, $"{prefixCode}1");
             }
             return dictionary;
-        }
-        public TreeNode RetornarRaiz()
-        {
-            return this.root;
-        }
-        public string RetornarCaracteresPrefijos()
-        {
-            return this.caracteresYSusPrefijos;
         }
     }
 }

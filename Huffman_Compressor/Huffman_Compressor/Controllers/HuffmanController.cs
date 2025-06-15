@@ -30,11 +30,11 @@ namespace Huffman_Compressor.Controllers
             var readedFile = new Files();
             var compressionMethod = new Compression();
             await readedFile.LecturaArchivoCompresion(postedFile, maxBufferSize);
-            compressionMethod.CreacionDiccionario(readedFile.RetornarListadoBytesArchivo());
-            compressionMethod.GenerarListaElementos(readedFile.RetornarCantidadTotalBytesLeidosArchivo());
+            compressionMethod.CreacionDiccionario(readedFile.ListadoBytesArchivo);
+            compressionMethod.GenerarListaElementos(readedFile.TotalBytesLeidos);
             var huffmanTree = compressionMethod.GenerarArbol();
-            var dictionary = huffmanTree.GenerarPrefixCode(huffmanTree.RetornarRaiz(), compressionMethod.RetornarDiccionario(), string.Empty);
-            readedFile.EscrituraArchivoCompresion(compressedFilePath, huffmanTree.RetornarCaracteresPrefijos(), dictionary);
+            var dictionary = huffmanTree.GenerarPrefixCode(huffmanTree.Root, compressionMethod.Dictionary, string.Empty);
+            readedFile.EscrituraArchivoCompresion(compressedFilePath, huffmanTree.CaracteresYSusPrefijos, dictionary);
             return View();
         }
         public ActionResult DownloadCompressedFiles()
@@ -70,7 +70,7 @@ namespace Huffman_Compressor.Controllers
             var readedFile = new Files();
             var dictionary = readedFile.LecturaArchivoDescompresion(postedFile);
             var decompression = new Decompression();
-            var text = decompression.DescomprimirArchivo(readedFile.RetornarListadoBytesArchivo(), dictionary);
+            var text = decompression.DescomprimirArchivo(readedFile.ListadoBytesArchivo, dictionary);
             readedFile.EscrituraArchivoDescompresion(decompressedFilePath, text);
             return View();
         }

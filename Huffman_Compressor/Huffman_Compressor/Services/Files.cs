@@ -10,6 +10,16 @@ namespace Huffman_Compressor.Services
     {
         private long totalBytesLeidos = 0;
         private List<byte> listadoBytesArchivo = new List<byte>();
+
+        public long TotalBytesLeidos
+        {
+            get { return this.totalBytesLeidos; }
+        }
+        public List<byte> ListadoBytesArchivo
+        {
+            get { return this.listadoBytesArchivo; }
+        }
+
         public async Task LecturaArchivoCompresion(IFormFile postedFile, long maxBufferSize)
         {
             var buffer = new byte[maxBufferSize];
@@ -18,13 +28,13 @@ namespace Huffman_Compressor.Services
             {
                 while ((bytesLeidos = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
                 {
-                    totalBytesLeidos += bytesLeidos;
-                    foreach (byte bit in buffer)
+                    for(int i = 0; i< bytesLeidos; i++)
                     {
-                        listadoBytesArchivo.Add(bit);
+                        listadoBytesArchivo.Add(buffer[i]);
                     }
                 }
             }
+            totalBytesLeidos = listadoBytesArchivo.Count();
         }
         public void EscrituraArchivoCompresion(string rutaArchivo, string caracteresYSusPrefijos, Dictionary<char, DictionaryValueElement> diccionario)
         {
@@ -83,7 +93,7 @@ namespace Huffman_Compressor.Services
                     {
                         var separación = new DictionaryValueElement();
                         separación = diccionario.GetValueOrDefault((char) bit);
-                        foreach (char caracter in separación.RetornarPrefixCode())
+                        foreach (char caracter in separación.PrefixCode)
                         {
                             cadena.Add(caracter);
                         }
@@ -180,18 +190,18 @@ namespace Huffman_Compressor.Services
                                         else
                                         {
                                             var prefijo = new DictionaryValueElement();
-                                            prefijo.AsignarPrefixCode(prefijos);
+                                            prefijo.PrefixCode = prefijos;
                                             i++;
-                                            if (prefijo.RetornarPrefixCode()[0] == '|')
+                                            if (prefijo.PrefixCode[0] == '|')
                                             {
                                                 string prueba = "";
-                                                for (int j = 1; j < prefijo.RetornarPrefixCode().Count(); j++)
+                                                for (int j = 1; j < prefijo.PrefixCode.Length; j++)
                                                 {
-                                                    prueba = prueba + prefijo.RetornarPrefixCode()[j];
+                                                    prueba = prueba + prefijo.PrefixCode[j];
                                                 }
-                                                prefijo.AsignarPrefixCode(prueba);
+                                                prefijo.PrefixCode = prueba;
                                             }
-                                            diccionario.Add(prefijo.RetornarPrefixCode(), caracter);
+                                            diccionario.Add(prefijo.PrefixCode, caracter);
                                             encontrado = false;
                                             prefijos = "";
                                         }
@@ -263,14 +273,6 @@ namespace Huffman_Compressor.Services
                     }
                 }
             }
-        }
-        public long RetornarCantidadTotalBytesLeidosArchivo()
-        {
-            return this.totalBytesLeidos;
-        }
-        public List<byte> RetornarListadoBytesArchivo()
-        {
-            return this.listadoBytesArchivo;
         }
     } 
 }

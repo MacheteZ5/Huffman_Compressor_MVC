@@ -4,36 +4,27 @@
     {
         private char caracter = caracter;
         private double probabilidad = probabilidad;
-        private TreeNode huffmanTreeNode = new TreeNode();
+        private TreeNode huffmanTreeNode = null;
 
-        public void AsignarCaracter(char caracter)
+        public char Caracter
         {
-            this.caracter = caracter;
+            get { return this.caracter; }
+            set { this.caracter = value; }
         }
-        public void AsignarProbabilidad(double probabilidad)
+        public double Probabilidad
         {
-            this.probabilidad = probabilidad;
+            get { return this.probabilidad; }
+            set { this.probabilidad = value; }
         }
-        public void AsignarHuffmanTreeNode(TreeNode huffmanTreeNode)
+        public TreeNode HuffmanTreeNode
         {
-            this.huffmanTreeNode = huffmanTreeNode;
+            get { return this.huffmanTreeNode; }
+            set { this.huffmanTreeNode = value; }
         }
         public int CompareTo(Object obj)
         {
             var compareToObj = obj as ListElement;
             return this.probabilidad.CompareTo(compareToObj.probabilidad);
-        }
-        public char RetornarCaracter()
-        {
-            return this.caracter;
-        }
-        public double RetornarProbabilidad()
-        {
-            return this.probabilidad;
-        }
-        public TreeNode RetornarHuffmanTreeNode()
-        {
-            return this.huffmanTreeNode;
         }
     }
 }
