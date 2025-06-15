@@ -1,4 +1,5 @@
-﻿using Huffman_Compressor.Models;
+﻿using Huffman_Compressor.Interfaces;
+using Huffman_Compressor.Models;
 using Humanizer.Bytes;
 using Microsoft.AspNetCore.Components.Forms;
 using System.IO;
@@ -6,11 +7,10 @@ using System.Text;
 
 namespace Huffman_Compressor.Services
 {
-    public class Files
+    public class Files : IFile
     {
         private long totalBytesLeidos = 0;
         private List<byte> listadoBytesArchivo = new List<byte>();
-
         public long TotalBytesLeidos
         {
             get { return this.totalBytesLeidos; }
@@ -19,8 +19,7 @@ namespace Huffman_Compressor.Services
         {
             get { return this.listadoBytesArchivo; }
         }
-
-        public async Task LecturaArchivoCompresion(IFormFile postedFile, long maxBufferSize)
+        public async Task FileReadingCompression(IFormFile postedFile, long maxBufferSize)
         {
             var buffer = new byte[maxBufferSize];
             var bytesLeidos = 0;
@@ -36,7 +35,7 @@ namespace Huffman_Compressor.Services
             }
             totalBytesLeidos = listadoBytesArchivo.Count();
         }
-        public void EscrituraArchivoCompresion(string rutaArchivo, string caracteresYSusPrefijos, Dictionary<char, DictionaryValueElement> diccionario)
+        public void FileWritingCompression(string rutaArchivo, string caracteresYSusPrefijos, Dictionary<char, DictionaryValueElement> diccionario)
         {
             var longitudCadena = caracteresYSusPrefijos.Length;
             var buffer = new byte[longitudCadena + 2];
@@ -141,7 +140,7 @@ namespace Huffman_Compressor.Services
                 }
             }
         }
-        public Dictionary<string, char> LecturaArchivoDescompresion(IFormFile postedFile)
+        public Dictionary<string, char> FileReadingDecompression(IFormFile postedFile)
         {
             var diccionario = new Dictionary<string, char>();
             using (var stream = postedFile.OpenReadStream())
@@ -239,7 +238,7 @@ namespace Huffman_Compressor.Services
             }
             return diccionario;
         }
-        public void EscrituraArchivoDescompresion(string decompressedFilePath, string text)
+        public void FileWritingDecompression(string decompressedFilePath, string text)
         {
             System.IO.File.Delete(decompressedFilePath);
             using (var writeStream = new FileStream(decompressedFilePath, FileMode.OpenOrCreate))

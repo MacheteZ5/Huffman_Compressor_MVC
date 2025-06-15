@@ -1,8 +1,9 @@
-﻿using Huffman_Compressor.Models;
+﻿using Huffman_Compressor.Interfaces;
+using Huffman_Compressor.Models;
 
 namespace Huffman_Compressor.Services
 {
-    public class HuffmanTree
+    public class HuffmanTree : IHuffmanTree
     {
         private TreeNode root = new TreeNode();
         private string caracteresYSusPrefijos = "";
@@ -21,11 +22,11 @@ namespace Huffman_Compressor.Services
             get { return this.caracteresYSusPrefijos; }
         }
 
-        public Dictionary<char, DictionaryValueElement> GenerarPrefixCode(TreeNode treeNode, Dictionary<char, DictionaryValueElement> dictionary, string prefixCode)
+        public Dictionary<char, DictionaryValueElement> GeneratePrefixCode(TreeNode treeNode, Dictionary<char, DictionaryValueElement> dictionary, string prefixCode)
         {
             if (treeNode is not null)
             {
-                dictionary = GenerarPrefixCode(treeNode.HijoIzquierdo, dictionary, $"{prefixCode}0");
+                dictionary = GeneratePrefixCode(treeNode.HijoIzquierdo, dictionary, $"{prefixCode}0");
                 if (treeNode.HijoDerecho is null && treeNode.HijoIzquierdo is null)
                 {
                     if (dictionary.ContainsKey(Convert.ToChar(treeNode.Caracter)))
@@ -37,7 +38,7 @@ namespace Huffman_Compressor.Services
                         caracteresYSusPrefijos += $"{treeNode.Caracter}|{prefixCode}";
                     }
                 }
-                dictionary = GenerarPrefixCode(treeNode.HijoDerecho, dictionary, $"{prefixCode}1");
+                dictionary = GeneratePrefixCode(treeNode.HijoDerecho, dictionary, $"{prefixCode}1");
             }
             return dictionary;
         }

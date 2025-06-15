@@ -1,13 +1,14 @@
-﻿using Huffman_Compressor.Models;
+﻿using Huffman_Compressor.Interfaces;
+using Huffman_Compressor.Models;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Huffman_Compressor.Services
 {
-    public class Decompression
+    public class Decompression : IDecompression
     {
-        public string DescomprimirArchivo(List<byte> ASCII, Dictionary<string, char> diccionario)
+        public string DecompressFile(List<byte> ASCII, Dictionary<string, char> dictionary)
         {
             var text = new StringBuilder();
             var prefixCode = string.Empty;
@@ -18,9 +19,9 @@ namespace Huffman_Compressor.Services
                 foreach (char character in binary)
                 {
                     prefixCode += character;
-                    if (diccionario.ContainsKey(prefixCode))
+                    if (dictionary.ContainsKey(prefixCode))
                     {
-                        text.Append(diccionario.GetValueOrDefault(prefixCode)); ;
+                        text.Append(dictionary.GetValueOrDefault(prefixCode)); ;
                         prefixCode = string.Empty;
                     }
                 }

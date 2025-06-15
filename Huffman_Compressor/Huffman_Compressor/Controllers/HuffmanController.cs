@@ -29,12 +29,12 @@ namespace Huffman_Compressor.Controllers
             var compressedFilePath = $"{serverPath}\\Compressed_Files\\{fileName}.huff";
             var readedFile = new Files();
             var compressionMethod = new Compression();
-            await readedFile.LecturaArchivoCompresion(postedFile, maxBufferSize);
-            compressionMethod.CreacionDiccionario(readedFile.ListadoBytesArchivo);
-            compressionMethod.GenerarListaElementos(readedFile.TotalBytesLeidos);
-            var huffmanTree = compressionMethod.GenerarArbol();
-            var dictionary = huffmanTree.GenerarPrefixCode(huffmanTree.Root, compressionMethod.Dictionary, string.Empty);
-            readedFile.EscrituraArchivoCompresion(compressedFilePath, huffmanTree.CaracteresYSusPrefijos, dictionary);
+            await readedFile.FileReadingCompression(postedFile, maxBufferSize);
+            compressionMethod.DictionaryCreation(readedFile.ListadoBytesArchivo);
+            compressionMethod.GenerateElementsList(readedFile.TotalBytesLeidos);
+            var huffmanTree = compressionMethod.CreateTree();
+            var dictionary = huffmanTree.GeneratePrefixCode(huffmanTree.Root, compressionMethod.Dictionary, string.Empty);
+            readedFile.FileWritingCompression(compressedFilePath, huffmanTree.CaracteresYSusPrefijos, dictionary);
             return View();
         }
         public ActionResult DownloadCompressedFiles()
@@ -68,10 +68,10 @@ namespace Huffman_Compressor.Controllers
             var fileName = postedFile.FileName.Substring(0, fileNameIndex);
             var decompressedFilePath = $"{filePath}\\Decompressed_Files\\{fileName}_decompressed.huff";
             var readedFile = new Files();
-            var dictionary = readedFile.LecturaArchivoDescompresion(postedFile);
+            var dictionary = readedFile.FileReadingDecompression(postedFile);
             var decompression = new Decompression();
-            var text = decompression.DescomprimirArchivo(readedFile.ListadoBytesArchivo, dictionary);
-            readedFile.EscrituraArchivoDescompresion(decompressedFilePath, text);
+            var text = decompression.DecompressFile(readedFile.ListadoBytesArchivo, dictionary);
+            readedFile.FileWritingDecompression(decompressedFilePath, text);
             return View();
         }
         public ActionResult DownloadDecompressedFiles()

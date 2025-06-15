@@ -1,18 +1,18 @@
-﻿using Huffman_Compressor.Models;
+﻿using Huffman_Compressor.Interfaces;
+using Huffman_Compressor.Models;
 using System.Xml.Linq;
 
 namespace Huffman_Compressor.Services
 {
-    public class Compression
+    public class Compression : ICompression
     {
         private List<ListElement> elementsList = new List<ListElement>();
         private Dictionary<char, DictionaryValueElement> dictionary = new Dictionary<char, DictionaryValueElement>();
-
         public Dictionary<char, DictionaryValueElement> Dictionary
         {
             get { return this.dictionary; }
         }
-        public void CreacionDiccionario(List<byte> listadoBuffersArchivo)
+        public void DictionaryCreation(List<byte> listadoBuffersArchivo)
         {
             foreach (byte bit in listadoBuffersArchivo)
             {
@@ -30,7 +30,7 @@ namespace Huffman_Compressor.Services
                 dictionary.Add((char) bit, newDictionaryValueElement);
             }
         }
-        public void GenerarListaElementos(long totalBytesLeidos)
+        public void GenerateElementsList(long totalBytesLeidos)
         {
             var sortedDictionary = from entry in dictionary orderby entry.Value ascending select entry;
             foreach (var sortedDictionaryItem in sortedDictionary)
@@ -42,7 +42,7 @@ namespace Huffman_Compressor.Services
             }
             elementsList.Sort();
         }
-        public HuffmanTree GenerarArbol()
+        public HuffmanTree CreateTree()
         {
             var repeticiones = elementsList.Count();
             var i = 1;
