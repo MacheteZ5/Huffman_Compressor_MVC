@@ -42,12 +42,12 @@ namespace Huffman_Compressor.Controllers
             var filePath = env.ContentRootPath;
             var directoryInfo = new DirectoryInfo($"{filePath}\\Compressed_Files\\");
             var files = directoryInfo.GetFiles(".");
-            var lista = new List<string>(files.Length);
-            foreach (var item in files)
+            var filesList = new List<string>(files.Length);
+            foreach (var file in files)
             {
-                lista.Add(item.Name);
+                filesList.Add(file.Name);
             }
-            return View(lista);
+            return View(filesList);
         }
         public ActionResult DownloadSelectedCompressedFile(string fileName)
         {
@@ -79,12 +79,12 @@ namespace Huffman_Compressor.Controllers
             var filePath = env.ContentRootPath;
             var directoryInfo = new DirectoryInfo($"{filePath}\\Decompressed_Files\\");
             var files = directoryInfo.GetFiles(".");
-            var lista = new List<string>(files.Length);
-            foreach (var item in files)
+            var filesList = new List<string>(files.Length);
+            foreach (var file in files)
             {
-                lista.Add(item.Name);
+                filesList.Add(file.Name);
             }
-            return View(lista);
+            return View(filesList);
         }
         public ActionResult DownloadSelectedDecompressedFile(string fileName)
         {
