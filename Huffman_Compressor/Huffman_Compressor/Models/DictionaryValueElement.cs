@@ -3,7 +3,7 @@
     public class DictionaryValueElement : IComparable
     {
         private int quantity = 0;
-        private string prefixCode = "";
+        private string prefixCode = string.Empty;
         
         public int Quantity
         {
