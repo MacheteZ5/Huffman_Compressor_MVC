@@ -45,8 +45,8 @@ namespace Huffman_Compressor.Services
             }
             buffer[longitudCadena] = Convert.ToByte('-');
             buffer[longitudCadena + 1] = Convert.ToByte('-');
-            int conteo = 0;
-            System.IO.File.Delete(rutaArchivo);
+            var conteo = 0;
+            File.Delete(rutaArchivo);
             using (var writeStream = new FileStream(rutaArchivo, FileMode.OpenOrCreate))
             {
                 using (var writer = new BinaryWriter(writeStream))
@@ -85,35 +85,33 @@ namespace Huffman_Compressor.Services
             {
                 using (var writer = new BinaryWriter(writeStream))
                 {
-                    byte[] bytebuffer = new byte[500];
+                    var bytebuffer = new byte[500];
                     var cadena = new List<char>();
                     var cantidadbuffer = 0;
                     foreach (byte bit in listadoBytesArchivo)
                     {
-                        var separación = new DictionaryValueElement();
-                        separación = diccionario.GetValueOrDefault((char) bit);
-                        foreach (char caracter in separación.PrefixCode)
+                        var separacion = new DictionaryValueElement();
+                        separacion = diccionario.GetValueOrDefault((char) bit);
+                        foreach (char caracter in separacion.PrefixCode)
                         {
                             cadena.Add(caracter);
                         }
                     }
-                    string binario = "";
-                    foreach (char car in cadena)
+                    var (binario, pref) = (string.Empty, string.Empty);
+                    var DECABYTE = new byte();
+                    foreach (char character in cadena)
                     {
                         if (binario.Count() == 8)
                         {
-                            byte DECABYTE = new byte();
-                            var pref = binario;
-                            decimal x = Convert.ToInt32(pref, 2);
-                            DECABYTE = Convert.ToByte(x);
+                            DECABYTE = Convert.ToByte(Convert.ToInt32(binario, 2));
                             bytebuffer[cantidadbuffer] = DECABYTE;
                             cantidadbuffer++;
-                            binario = "";
-                            binario = binario + car;
+                            binario = string.Empty;
+                            binario += character;
                         }
                         else
                         {
-                            binario = binario + car;
+                            binario += character;
                         }
                         if (cantidadbuffer == 500)
                         {
@@ -123,16 +121,13 @@ namespace Huffman_Compressor.Services
                             bytebuffer = new byte[500];
                         }
                     }
-                    if (binario != "")
+                    if (binario != string.Empty)
                     {
                         while (binario.Count() != 8)
                         {
-                            binario = binario + "0";
+                            binario += "0";
                         }
-                        byte DECABYTE = new byte();
-                        var pref = binario;
-                        decimal x = Convert.ToInt32(pref, 2);
-                        DECABYTE = Convert.ToByte(x);
+                        DECABYTE = Convert.ToByte(Convert.ToInt32(binario, 2));
                         bytebuffer[cantidadbuffer] = DECABYTE;
                         writer.Seek(0, SeekOrigin.End);
                         writer.Write(bytebuffer);
@@ -147,13 +142,11 @@ namespace Huffman_Compressor.Services
             {
                 using (var reader = new BinaryReader(stream))
                 {
-                    int conteo0 = 0;
-                    string prefijos = "";
-                    char caracter = ' ';
-                    bool encontrado = false;
-                    byte[] byteBuffer = new byte[10000];
-                    bool separador = false;
-                    bool demasiado = false;
+                    var conteo0 = 0;
+                    var prefijos = string.Empty;
+                    var caracter = ' ';
+                    var byteBuffer = new byte[10000];
+                    var (encontrado, separador, demasiado) = (false, false, false);
                     while (reader.BaseStream.Position != reader.BaseStream.Length)
                     {
                         byteBuffer = reader.ReadBytes(10000);
@@ -193,7 +186,7 @@ namespace Huffman_Compressor.Services
                                             i++;
                                             if (prefijo.PrefixCode[0] == '|')
                                             {
-                                                string prueba = "";
+                                                var prueba = string.Empty;
                                                 for (int j = 1; j < prefijo.PrefixCode.Length; j++)
                                                 {
                                                     prueba = prueba + prefijo.PrefixCode[j];
@@ -202,7 +195,7 @@ namespace Huffman_Compressor.Services
                                             }
                                             diccionario.Add(prefijo.PrefixCode, caracter);
                                             encontrado = false;
-                                            prefijos = "";
+                                            prefijos = string.Empty;
                                         }
                                     }
                                 }
@@ -245,9 +238,8 @@ namespace Huffman_Compressor.Services
             {
                 using (var writer = new BinaryWriter(writeStream))
                 {
-                    var cantidadvecesbuffer = 0;
+                    var (cantidadvecesbuffer, cantidad) = (0, 0);
                     var byteBufferfinal = new byte[100];
-                    var cantidad = 0;
                     foreach (char carfinal in text)
                     {
                         byteBufferfinal[cantidad] = Convert.ToByte(carfinal);
@@ -256,18 +248,15 @@ namespace Huffman_Compressor.Services
                         {
                             if (cantidadvecesbuffer == 0)
                             {
-                                writer.Write(byteBufferfinal);
-                                byteBufferfinal = new byte[100];
                                 cantidadvecesbuffer++;
-                                cantidad = 0;
                             }
                             else
                             {
                                 writer.Seek(0, SeekOrigin.End);
-                                writer.Write(byteBufferfinal);
-                                byteBufferfinal = new byte[100];
-                                cantidad = 0;
                             }
+                            writer.Write(byteBufferfinal);
+                            byteBufferfinal = new byte[100];
+                            cantidad = 0;
                         }
                     }
                 }

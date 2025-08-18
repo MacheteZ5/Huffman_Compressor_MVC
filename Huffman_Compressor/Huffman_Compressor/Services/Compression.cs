@@ -48,9 +48,7 @@ namespace Huffman_Compressor.Services
             var i = 1;
             while (repeticiones > 1)
             {
-                var treeNodeAuxiliar = new TreeNode();
-                var izquierdo = new TreeNode();
-                var derecho = new TreeNode();
+                var (treeNodeAuxiliar, izquierdo, derecho) = (new TreeNode(), new TreeNode(), new TreeNode());
                 var nodeName = $"n{(i + 1)}";
                 if (elementsList[0].HuffmanTreeNode is null && elementsList[1].HuffmanTreeNode is null)
                 {

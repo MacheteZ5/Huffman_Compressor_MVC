@@ -11,7 +11,7 @@ namespace Huffman_Compressor.Controllers
     public class HuffmanController : Controller
     {
         private const int maxBufferSize = 10000;
-        public readonly IWebHostEnvironment env;
+        private readonly IWebHostEnvironment env;
         public HuffmanController(IWebHostEnvironment env)
         {
             this.env = env;
@@ -41,12 +41,9 @@ namespace Huffman_Compressor.Controllers
         {
             var filePath = env.ContentRootPath;
             var directoryInfo = new DirectoryInfo($"{filePath}\\Compressed_Files\\");
-            var files = directoryInfo.GetFiles(".");
-            var filesList = new List<string>(files.Length);
-            foreach (var file in files)
-            {
-                filesList.Add(file.Name);
-            }
+            var files = directoryInfo.GetFiles(".").ToList();
+            var filesList = new List<string>();
+            files.ForEach(file => filesList.Add(file.Name));
             return View(filesList);
         }
         public ActionResult DownloadSelectedCompressedFile(string fileName)
@@ -78,12 +75,9 @@ namespace Huffman_Compressor.Controllers
         {
             var filePath = env.ContentRootPath;
             var directoryInfo = new DirectoryInfo($"{filePath}\\Decompressed_Files\\");
-            var files = directoryInfo.GetFiles(".");
-            var filesList = new List<string>(files.Length);
-            foreach (var file in files)
-            {
-                filesList.Add(file.Name);
-            }
+            var files = directoryInfo.GetFiles(".").ToList();
+            var filesList = new List<string>();
+            files.ForEach(file => filesList.Add(file.Name));
             return View(filesList);
         }
         public ActionResult DownloadSelectedDecompressedFile(string fileName)
