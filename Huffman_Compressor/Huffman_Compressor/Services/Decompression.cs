@@ -12,10 +12,10 @@ namespace Huffman_Compressor.Services
         {
             var text = new StringBuilder();
             var prefixCode = string.Empty;
+            var binary = string.Empty;
             foreach (byte bit in ASCII)
             {
-                var binary = string.Empty;
-                binary += ConvertByteToString(bit);
+                binary = ConvertByteToString(bit);
                 foreach (char character in binary)
                 {
                     prefixCode += character;
@@ -31,18 +31,14 @@ namespace Huffman_Compressor.Services
         private string ConvertByteToString(byte bit)
         {
             var binary = string.Empty;
-            while (true)
+            while (bit>0)
             {
                 binary = ((bit % 2) != 0) ? $"1{binary}" : $"0{binary}";
                 bit /= 2;
-                if (bit <= 0)
-                {
-                    break;
-                }
             }
-            while (binary.Length < 8)
+            if (binary.Length < 8)
             {
-                binary = $"0{binary}";
+                binary = binary.PadLeft(8, '0');
             }
             return binary;
         }

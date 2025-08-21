@@ -137,7 +137,7 @@ namespace Huffman_Compressor.Services
         }
         public Dictionary<string, char> FileReadingDecompression(IFormFile postedFile)
         {
-            var diccionario = new Dictionary<string, char>();
+            var dictionary = new Dictionary<string, char>();
             using (var stream = postedFile.OpenReadStream())
             {
                 using (var reader = new BinaryReader(stream))
@@ -193,7 +193,7 @@ namespace Huffman_Compressor.Services
                                                 }
                                                 prefijo.PrefixCode = prueba;
                                             }
-                                            diccionario.Add(prefijo.PrefixCode, caracter);
+                                            dictionary.Add(prefijo.PrefixCode, caracter);
                                             encontrado = false;
                                             prefijos = string.Empty;
                                         }
@@ -229,35 +229,49 @@ namespace Huffman_Compressor.Services
             {
                 listadoBytesArchivo.Remove(listadoBytesArchivo[0]);
             }
-            return diccionario;
+            return dictionary;
         }
-        public void FileWritingDecompression(string decompressedFilePath, string text)
+        public void FileWritingDecompression(string decompressedFilePath, string text, int maxBufferSize)
         {
-            System.IO.File.Delete(decompressedFilePath);
+            File.Delete(decompressedFilePath);
             using (var writeStream = new FileStream(decompressedFilePath, FileMode.OpenOrCreate))
             {
                 using (var writer = new BinaryWriter(writeStream))
                 {
-                    var (cantidadvecesbuffer, cantidad) = (0, 0);
-                    var byteBufferfinal = new byte[100];
-                    foreach (char carfinal in text)
+                    var quantity = 0;
+                    var start = true;
+                    var finalBuffer = new byte[maxBufferSize];
+                    var shortText = new StringBuilder();
+                    foreach (char character in text)
                     {
-                        byteBufferfinal[cantidad] = Convert.ToByte(carfinal);
-                        cantidad++;
-                        if (cantidad == 100)
+                        shortText.Append(character); 
+                        if(shortText.Length == maxBufferSize)
                         {
-                            if (cantidadvecesbuffer == 0)
+                            foreach (char shortCaracter in shortText.ToString())
                             {
-                                cantidadvecesbuffer++;
+                                finalBuffer[quantity] = Convert.ToByte(shortCaracter);
+                                quantity++;
                             }
-                            else
+                            if (start)
                             {
                                 writer.Seek(0, SeekOrigin.End);
+                                start = false;
                             }
-                            writer.Write(byteBufferfinal);
-                            byteBufferfinal = new byte[100];
-                            cantidad = 0;
+                            writer.Write(finalBuffer);
+                            finalBuffer = new byte[maxBufferSize];
+                            quantity = 0;
+                            shortText.Clear();
                         }
+                    }
+                    if(shortText.Length > 0)
+                    {
+                        finalBuffer = new byte[shortText.Length];
+                        foreach (char shortCaracter in shortText.ToString())
+                        {
+                            finalBuffer[quantity] = Convert.ToByte(shortCaracter);
+                            quantity++;
+                        }
+                        writer.Write(finalBuffer);
                     }
                 }
             }

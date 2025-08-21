@@ -68,7 +68,7 @@ namespace Huffman_Compressor.Controllers
             var dictionary = readedFile.FileReadingDecompression(postedFile);
             var decompression = new Decompression();
             var text = decompression.DecompressFile(readedFile.ListadoBytesArchivo, dictionary);
-            readedFile.FileWritingDecompression(decompressedFilePath, text);
+            readedFile.FileWritingDecompression(decompressedFilePath, text, maxBufferSize);
             return View();
         }
         public ActionResult DownloadDecompressedFiles()
