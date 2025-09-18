@@ -7,6 +7,6 @@ namespace Huffman_Compressor.Interfaces
     {
         void DictionaryCreation(List<byte> listadoBuffersArchivo);
         void GenerateElementsList(long totalBytesLeidos);
-        HuffmanTree CreateTree();
+        HuffmanTreeService CreateTree();
     }
 }

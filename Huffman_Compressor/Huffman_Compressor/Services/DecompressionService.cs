@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Huffman_Compressor.Services
 {
-    public class Decompression : IDecompression
+    public class DecompressionService : IDecompression
     {
         public string DecompressFile(List<byte> ASCII, Dictionary<string, char> dictionary)
         {

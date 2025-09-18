@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Huffman_Compressor.Services
 {
-    public class Files : IFile
+    public class FileService : IFile
     {
         private long totalBytesLeidos = 0;
         private List<byte> listadoBytesArchivo = new List<byte>();
@@ -29,11 +29,11 @@ namespace Huffman_Compressor.Services
                 {
                     for(int i = 0; i< bytesLeidos; i++)
                     {
-                        listadoBytesArchivo.Add(buffer[i]);
+                        this.listadoBytesArchivo.Add(buffer[i]);
                     }
                 }
             }
-            totalBytesLeidos = listadoBytesArchivo.Count();
+            this.totalBytesLeidos = this.listadoBytesArchivo.Count();
         }
         public void FileWritingCompression(string rutaArchivo, string caracteresYSusPrefijos, Dictionary<char, DictionaryValueElement> diccionario)
         {
@@ -205,7 +205,7 @@ namespace Huffman_Compressor.Services
                                     {
                                         conteo0++;
                                     }
-                                    listadoBytesArchivo.Add(byteBuffer[i]);
+                                    this.listadoBytesArchivo.Add(byteBuffer[i]);
                                     if (conteo0 == 10000)
                                     {
                                         demasiado = true;
@@ -227,7 +227,7 @@ namespace Huffman_Compressor.Services
             }
             for (int i = 0; i < 2; i++)
             {
-                listadoBytesArchivo.Remove(listadoBytesArchivo[0]);
+                this.listadoBytesArchivo.RemoveAt(0);
             }
             return dictionary;
         }

@@ -3,11 +3,11 @@ using Huffman_Compressor.Models;
 
 namespace Huffman_Compressor.Services
 {
-    public class HuffmanTree : IHuffmanTree
+    public class HuffmanTreeService : IHuffmanTree
     {
         private TreeNode root = new TreeNode();
         private string caracteresYSusPrefijos = string.Empty;
-        public HuffmanTree(TreeNode root)
+        public HuffmanTreeService(TreeNode root)
         {
             this.root = root;
         }

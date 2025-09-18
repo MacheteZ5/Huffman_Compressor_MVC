@@ -27,8 +27,8 @@ namespace Huffman_Compressor.Controllers
             var fileNameIndex = postedFile.FileName.IndexOf(".");
             var fileName = postedFile.FileName.Substring(0, fileNameIndex);
             var compressedFilePath = $"{serverPath}\\Compressed_Files\\{fileName}.huff";
-            var readedFile = new Files();
-            var compressionMethod = new Compression();
+            var readedFile = new FileService();
+            var compressionMethod = new CompressionService();
             await readedFile.FileReadingCompression(postedFile, maxBufferSize);
             compressionMethod.DictionaryCreation(readedFile.ListadoBytesArchivo);
             compressionMethod.GenerateElementsList(readedFile.TotalBytesLeidos);
@@ -64,9 +64,9 @@ namespace Huffman_Compressor.Controllers
             var fileNameIndex = postedFile.FileName.IndexOf(".");
             var fileName = postedFile.FileName.Substring(0, fileNameIndex);
             var decompressedFilePath = $"{filePath}\\Decompressed_Files\\{fileName}_decompressed.huff";
-            var readedFile = new Files();
+            var readedFile = new FileService();
             var dictionary = readedFile.FileReadingDecompression(postedFile);
-            var decompression = new Decompression();
+            var decompression = new DecompressionService();
             var text = decompression.DecompressFile(readedFile.ListadoBytesArchivo, dictionary);
             readedFile.FileWritingDecompression(decompressedFilePath, text, maxBufferSize);
             return View();

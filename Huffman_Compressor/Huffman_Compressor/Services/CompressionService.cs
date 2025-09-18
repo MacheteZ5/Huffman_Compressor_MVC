@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 namespace Huffman_Compressor.Services
 {
-    public class Compression : ICompression
+    public class CompressionService : ICompression
     {
         private List<ListElement> elementsList = new List<ListElement>();
         private Dictionary<char, DictionaryValueElement> dictionary = new Dictionary<char, DictionaryValueElement>();
@@ -42,7 +42,7 @@ namespace Huffman_Compressor.Services
             }
             elementsList.Sort();
         }
-        public HuffmanTree CreateTree()
+        public HuffmanTreeService CreateTree()
         {
             var repeticiones = elementsList.Count();
             var i = 1;
@@ -99,7 +99,7 @@ namespace Huffman_Compressor.Services
                 repeticiones = elementsList.Count;
                 i++;
             }
-            var huffmanTree = new HuffmanTree(elementsList[0].HuffmanTreeNode);
+            var huffmanTree = new HuffmanTreeService(elementsList[0].HuffmanTreeNode);
             return huffmanTree;
         }
     }
