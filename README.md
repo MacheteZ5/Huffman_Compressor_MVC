@@ -1,3 +1,3 @@
 # Huffman_Compressor
 
-El programa permite la lectura de cualquier archivo con el fin de comprimirlo y reducir su tamaño.
+- The program allows you to read any file in order to compress it and reduce its size.
